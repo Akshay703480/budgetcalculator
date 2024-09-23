@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - Budget Calculator</title>
+    
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+       
+        body {
+            background-image: url('https://img.freepik.com/premium-photo/photo-realistic-person-using-budget-app-financial-growth-smartphone-with-plain-background_980716-343369.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: 0;
+        }
+        .registration-card {
+            position: relative;
+            z-index: 1; 
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            padding: 2rem;
+            max-width: 400px;
+            width: 100%;
+        }
+        .registration-card .card-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .registration-card .card-header h3 {
+            margin: 0;
+            font-weight: 700;
+            color: #2575fc;
+        }
+        .form-control:focus {
+            border-color: #2575fc;
+            box-shadow: none;
+        }
+        .btn-primary {
+            background-color: #2575fc;
+            border-color: #2575fc;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #1a5bb8;
+            border-color: #1a5bb8;
+        }
+        .btn-link {
+            color: #2575fc;
+            text-decoration: none;
+        }
+
+        .btn-link:hover {
+            text-decoration: underline;
+        }
+
+ 
+        #successMessage a {
+            color: #2575fc;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .registration-card {
+                padding: 1.5rem;
+            }
+        }
+
+        .registration-card .card-header i {
+            font-size: 2rem;
+            color: #2575fc;
+        }
+        #successMessage {
+            transition: opacity 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-card">
+        <div class="card-header">
+            <i class="bi bi-person-plus-fill"></i>
+            <h3 class="mt-2">Create Account</h3>
+        </div>
+        <form id="registerForm">
+            <div class="mb-3">
+                <label for="registerUsername" class="form-label">Username</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+                    <input type="text" class="form-control" id="registerUsername" placeholder="Enter your username" required>
+                </div>
+            </div>
+            <div class="mb-4">
+                <label for="registerPassword" class="form-label">Password</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                    <input type="password" class="form-control" id="registerPassword" placeholder="Enter your password" required>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+            <div class="text-center mt-3">
+                <a href="login.html" class="btn-link">Already have an account? <strong>Login</strong></a>
+            </div>
+        </form>
+        <div id="successMessage" class="alert alert-success mt-4 d-none text-center" role="alert">
+            Registration successful! You can now <a href="login.html" class="alert-link">login</a>.
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('registerUsername').value.trim();
+            const password = document.getElementById('registerPassword').value;
+
+            if (username === '' || password === '') {
+                alert('Please fill in all fields.');
+                return;
+            }
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            const userExists = users.some(user => user.username === username);
+            if (userExists) {
+                alert('Username already exists. Please choose another one.');
+                return;
+            }
+            users.push({ username, password });
+            localStorage.setItem('users', JSON.stringify(users));
+            document.getElementById('successMessage').classList.remove('d-none');
+            document.getElementById('registerForm').classList.add('d-none');
+        });
+    </script>
+</body>
+</html>
